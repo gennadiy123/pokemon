@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Pokemon, PokemonState } from "../../types";
 import { getPokemonList, getPokemonInfo } from "../../redux/middleware";
 import { AppDispatch } from "../../redux/store";
+import { PokemonInfo } from "../PokemonInfo";
 
 export const MainPage = () => {
   const [pokemonPerPage, setPokemonPerPage] = useState<number>(12);
@@ -22,21 +23,25 @@ export const MainPage = () => {
 
   const onLoadPokemon = () => {
     setPokemonPerPage(pokemonPerPage + 12);
-    };
-    
-    const handleChange = (e: { preventDefault: () => void; target: { value: SetStateAction<string>; }; }) => {
-        e.preventDefault();
-        setSearch(e.target.value);
-    }
+  };
 
-  const onSearch = (e: { preventDefault: () => void; }) => {
+  const handleChange = (e: {
+    preventDefault: () => void;
+    target: { value: SetStateAction<string> };
+  }) => {
     e.preventDefault();
-      console.log('search', search)
+    setSearch(e.target.value);
+  };
+
+  const onSearch = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
       dispatch(getPokemonInfo(search));
+      setSearch('');
   };
 
   return (
     <>
+      <PokemonInfo />
       <form onSubmit={onSearch}>
         <input placeholder="Search..." value={search} onChange={handleChange} />
       </form>
@@ -46,6 +51,7 @@ export const MainPage = () => {
             src={`https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${getId(
               el.url
             )}.svg`}
+            alt={`pokemon ${el.name}`}
           />
           <p>{el.name}</p>
         </div>

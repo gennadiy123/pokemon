@@ -18,7 +18,19 @@ export const getPokemonInfo = (pokemon: string) => {
     await axios
       .get(`${url}${pokemon}`)
       .then((response) => response.data)
-      .then(data => console.log('data', data))
-      // .then((data) => dispatch(getPokemon(data.results)));
+      // .then((data) =>
+      //   console.log("data", {
+      //     name: data.name,
+      //     image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${data.id}.svg`,
+      //     moves: data.moves,
+      //     stats: data.stats,
+      //   })
+      // )
+      .then((data) => dispatch(getPokemon({
+          name: data.name,
+          image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${data.id}.svg`,
+          moves: data.moves,
+          stats: data.stats,
+        })));
   };
 }
