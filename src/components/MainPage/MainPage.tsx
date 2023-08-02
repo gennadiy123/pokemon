@@ -1,16 +1,18 @@
-import { useEffect } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Pokemon, PokemonState } from "../../types";
-import { getPokemon } from "../../redux/middleware";
+import { getPokemonList, getPokemonInfo } from "../../redux/middleware";
 import { AppDispatch } from "../../redux/store";
 
 export const MainPage = () => {
+  const [pokemonPerPage, setPokemonPerPage] = useState<number>(12);
+  const [search, setSearch] = useState<string>("");
   const dispatch: AppDispatch = useDispatch();
   const pokemon = useSelector((state: PokemonState) => state.pokemon);
 
   useEffect(() => {
-    dispatch(getPokemon());
-  }, []);
+    dispatch(getPokemonList(pokemonPerPage));
+  }, [pokemonPerPage]);
 
   const getId = (pokemonUrl: string) => {
     const url = new URL(pokemonUrl);
@@ -18,8 +20,26 @@ export const MainPage = () => {
     return id;
   };
 
+  const onLoadPokemon = () => {
+    setPokemonPerPage(pokemonPerPage + 12);
+    };
+    
+    const handleChange = (e: { preventDefault: () => void; target: { value: SetStateAction<string>; }; }) => {
+        e.preventDefault();
+        setSearch(e.target.value);
+    }
+
+  const onSearch = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+      console.log('search', search)
+      dispatch(getPokemonInfo(search));
+  };
+
   return (
     <>
+      <form onSubmit={onSearch}>
+        <input placeholder="Search..." value={search} onChange={handleChange} />
+      </form>
       {pokemon.map((el: Pokemon) => (
         <div key={el.name}>
           <img
@@ -30,6 +50,7 @@ export const MainPage = () => {
           <p>{el.name}</p>
         </div>
       ))}
+      <button onClick={onLoadPokemon}>Load more</button>
     </>
   );
 };
