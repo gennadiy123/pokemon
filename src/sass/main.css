@@ -1,0 +1,149 @@
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-wrapper {
+  display: flex;
+  width: 100%;
+  padding: 50px 100px;
+  justify-content: space-around;
+}
+.info-wrapper h1 {
+  font-size: 40px;
+}
+.info-wrapper h1::first-letter {
+  text-transform: capitalize;
+}
+
+.moves {
+  display: inline-block;
+  width: 360px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.moves li {
+  margin-right: 30px;
+}
+
+.section-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-image {
+  width: 500px;
+}
+
+.main-page-button {
+  width: 200px;
+  height: 46px;
+  border: 1px;
+  border-radius: 16px;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+  background-color: rgb(24, 185, 24);
+}
+
+.wrapper {
+  padding: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.images {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+}
+
+.image-card {
+  margin: 0 50px 50px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+}
+
+.image {
+  width: 300px;
+}
+
+.button {
+  width: 200px;
+  height: 46px;
+  border: 1px;
+  border-radius: 16px;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+  background-color: rgb(45, 23, 245);
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-wrapper {
+  display: flex;
+  width: 100%;
+  padding: 50px 100px;
+  justify-content: space-around;
+}
+.info-wrapper h1 {
+  font-size: 40px;
+}
+.info-wrapper h1::first-letter {
+  text-transform: capitalize;
+}
+
+.moves {
+  display: inline-block;
+  width: 360px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.moves li {
+  margin-right: 30px;
+}
+
+.section-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-image {
+  width: 500px;
+}
+
+.main-page-button {
+  width: 200px;
+  height: 46px;
+  border: 1px;
+  border-radius: 16px;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+  background-color: rgb(24, 185, 24);
+}
+
+.search {
+  margin-bottom: 50px;
+}
+
+.search-input {
+  width: 300px;
+  height: 30px;
+  border: solid 2px grey;
+  border-radius: 20px;
+  padding-left: 12px;
+  font-size: 16px;
+}/*# sourceMappingURL=main.css.map */

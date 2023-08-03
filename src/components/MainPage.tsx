@@ -6,9 +6,10 @@ import { Pokemon, PokemonState } from "../types";
 import { getPokemonList } from "../redux/middleware";
 import { AppDispatch } from "../redux/store";
 import { url, imageUrl } from "../constants";
+import "../sass/_main-page.scss";
 
 export const MainPage = () => {
-  const [pokemonPerPage, setPokemonPerPage] = useState<number>(12);
+  const [pokemonPerPage, setPokemonPerPage] = useState<number>(10);
   const dispatch: AppDispatch = useDispatch();
   const pokemon = useSelector((state: PokemonState) => state.pokemon);
 
@@ -49,23 +50,29 @@ export const MainPage = () => {
   }, [pokemonPerPage]);
 
   const onLoadPokemon = () => {
-    setPokemonPerPage(pokemonPerPage + 12);
+    setPokemonPerPage(pokemonPerPage + 10);
   };
 
   return (
-    <div className='wrapper'>
+    <div className="wrapper">
       <Search />
-      {sortingComplete ? (
-        sortedPokemon.map((el: Pokemon) => (
-          <div key={el.name}>
-            <img src={`${imageUrl}${el.id}.svg`} alt={`pokemon ${el.name}`} />
-            <p>{el.name}</p>
-          </div>
-        ))
-      ) : (
-        <p>Loading...</p>
-      )}
-      <button onClick={onLoadPokemon}>Load more</button>
+      <div className="images">
+        {sortingComplete ? (
+          sortedPokemon.map((el: Pokemon) => (
+            <div className="image-card" key={el.name}>
+              <img
+                className="image"
+                src={`${imageUrl}${el.id}.svg`}
+                alt={`pokemon ${el.name}`}
+              />
+              <p>{el.name}</p>
+            </div>
+          ))
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
+      <button className="button" onClick={onLoadPokemon}>Load more</button>
     </div>
   );
 };

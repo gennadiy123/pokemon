@@ -1,0 +1,56 @@
+@mixin button {
+    width: 200px;
+    height: 46px;
+    border: 1px;
+    border-radius: 16px;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-wrapper {
+    display: flex;
+    width: 100%;
+    padding: 50px 100px;
+    justify-content: space-around;
+
+    h1 {
+        font-size: 40px;
+    }
+     
+    h1::first-letter {
+            text-transform: capitalize;
+        }
+}
+
+.moves {
+    display: inline-block;
+    width: 360px;
+    display: flex;
+    flex-wrap: wrap;
+
+    li {
+        margin-right: 30px;
+    }
+}
+
+.section-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-image {
+    width: 500px;
+}
+
+.main-page-button {
+    @include button;
+    background-color: rgb(24, 185, 24);
+}
