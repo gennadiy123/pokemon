@@ -1,15 +1,15 @@
 import axios from "axios";
 import { Dispatch } from "redux";
 import { getAllPokemon, getPokemon } from "./pokemonSlice";
-
-const url = "https://pokeapi.co/api/v2/pokemon/";
+import { url, imageUrl } from '../constants'
 
 export const getPokemonList = (pokemonPerPage: number) => {
   return async (dispatch: Dispatch) => {
     await axios
       .get(`${url}?limit=${pokemonPerPage}`)
       .then((response) => response.data)
-      .then((data) => dispatch(getAllPokemon(data.results)));
+      .then((data) => dispatch(getAllPokemon(data.results)))
+      .catch((error) => alert(error));
   };
 };
 
@@ -18,19 +18,15 @@ export const getPokemonInfo = (pokemon: string) => {
     await axios
       .get(`${url}${pokemon}`)
       .then((response) => response.data)
-      // .then((data) =>
-      //   console.log("data", {
-      //     name: data.name,
-      //     image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${data.id}.svg`,
-      //     moves: data.moves,
-      //     stats: data.stats,
-      //   })
-      // )
-      .then((data) => dispatch(getPokemon({
-          name: data.name,
-          image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${data.id}.svg`,
-          moves: data.moves,
-          stats: data.stats,
-        })));
+      .then(({ name, id, moves, stats }) =>
+        dispatch(
+          getPokemon({
+            name: name,
+            image: `${imageUrl}${id}.svg`,
+            moves: moves,
+            stats: stats,
+          })
+        )
+      ).catch(error => alert(error))
   };
 }

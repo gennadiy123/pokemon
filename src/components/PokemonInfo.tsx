@@ -1,27 +1,39 @@
+import {useEffect} from 'react'
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { PokemonState } from "../types";
 
 export const PokemonInfo = () => {
-  const pokemonInfo = useSelector((state: PokemonState) => state.pokemonInfo);
+  const {name, image, moves, stats} = useSelector((state: PokemonState) => state.pokemonInfo);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    !name && navigate("/");
+  }, [])
+
+  const onMainPage = () => {
+    navigate("/");
+  };
 
   return (
     <>
-      <p>{pokemonInfo.name}</p>
-      <img src={pokemonInfo.image} />
+      <p>{name}</p>
+      <img src={image} />
       <p>Moves</p>
       <ul>
-        {pokemonInfo.moves.map((el) => (
+        {moves.map((el) => (
           <li key={el.move.name}>{el.move.name}</li>
         ))}
       </ul>
       <ul>
         <p>Stats</p>
-        {pokemonInfo.stats.map((el) => (
+        {stats.map((el) => (
           <li key={el.stat.name}>
             {el.stat.name}: {el.base_stat}
           </li>
         ))}
       </ul>
+      <button onClick={onMainPage}>Back to Main page</button>
     </>
   );
 };
