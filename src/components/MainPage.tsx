@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Search } from "./Search";
 import { Pokemon, PokemonState } from "../types";
-import { getPokemonList } from "../redux/middleware";
+import { getPokemonList, getPokemonInfo } from "../redux/middleware";
 import { AppDispatch } from "../redux/store";
 import { url, imageUrl } from "../constants";
 import "../sass/_main-page.scss";
@@ -12,6 +13,7 @@ export const MainPage = () => {
   const [pokemonPerPage, setPokemonPerPage] = useState<number>(10);
   const dispatch: AppDispatch = useDispatch();
   const pokemon = useSelector((state: PokemonState) => state.pokemon);
+  const navigate = useNavigate();
 
   const [sortedPokemon, setSortedPokemon] = useState<Pokemon[]>([]);
   const [sortingComplete, setSortingComplete] = useState(false);
@@ -53,26 +55,37 @@ export const MainPage = () => {
     setPokemonPerPage(pokemonPerPage + 10);
   };
 
+  const onOpenPokemon = async (pokemon: string) => {
+    await dispatch(getPokemonInfo(pokemon));
+    navigate(`/${pokemon}`);
+  };
+
   return (
     <div className="wrapper">
       <Search />
       <div className="images">
         {sortingComplete ? (
           sortedPokemon.map((el: Pokemon) => (
-            <div className="image-card" key={el.name}>
+            <div
+              onClick={() => onOpenPokemon(el.name)}
+              className="image-card"
+              key={el.name}
+            >
               <img
                 className="image"
                 src={`${imageUrl}${el.id}.svg`}
                 alt={`pokemon ${el.name}`}
               />
-              <p>{el.name}</p>
+              <p className="pokemon-name">{el.name}</p>
             </div>
           ))
         ) : (
           <p>Loading...</p>
         )}
       </div>
-      <button className="button" onClick={onLoadPokemon}>Load more</button>
+      <button className="button" onClick={onLoadPokemon}>
+        Load more
+      </button>
     </div>
   );
 };

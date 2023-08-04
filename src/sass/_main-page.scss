@@ -1,25 +1,72 @@
-@import "./pokemon-info";
+@mixin button {
+    width: 200px;
+    height: 46px;
+    border: 1px;
+    border-radius: 16px;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+    box-shadow: -10px -10px 15px rgb(255, 255, 255),
+        10px 10px 15px rgba(0, 0, 0, 0.20);
+    color: rgba(75, 75, 75, 0.5), ;
+    font-size: 16px;
+    font-weight: 600;
+
+    &:hover {
+        box-shadow: -10px -10px 15px rgba(255, 255, 255, 0.5),
+            10px 10px 15px rgba(70, 70, 70, 0.12);
+    }
+
+    &:active {
+        box-shadow: inset -10px -10px 15px rgb(255, 255, 255),
+            inset 10px 10px 15px rgba(0, 0, 0, 0.12);
+    }
+}
+
+@mixin title-text {
+    text-shadow: -1px -1px 1px hsla(0, 0%, 255%, 0.6);
+    font-weight: 600;
+    letter-spacing: 2px;
+    background-color: #747377;
+    color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+}
+
+* {
+    background-color: rgb(233, 232, 232);
+}
 
 .wrapper {
     padding: 50px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .images {
     display: flex;
     flex-wrap: wrap;
-    align-content: space-between;
+    justify-content: center;
 }
 
 .image-card {
-    margin: 0 50px 50px 0;
+    position: relative;
+    margin: 0 25px 50px 25px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     font-size: 20px;
+    cursor: pointer;
+    padding: 20px 20px 80px 20px;
+    box-shadow: -10px -10px 15px rgba(255, 255, 255, 0.5),
+            10px 10px 15px rgba(70, 70, 70, 0.12);
+
+        &:hover {
+            box-shadow: inset -10px -10px 15px rgba(255, 255, 255, 0.5),
+                    inset 10px 10px 15px rgba(70, 70, 70, 0.12);
+            }
 }
 
 .image {
@@ -28,5 +75,10 @@
 
 .button {
     @include button;
-    background-color: rgb(45, 23, 245);
+}
+
+.pokemon-name {
+    position: absolute;
+    bottom: 10px;
+    @include title-text;
 }

@@ -21,30 +21,34 @@ export const PokemonInfo = () => {
   return (
     <div className="page-wrapper">
       <div className="info-wrapper">
-        <div className="section-wrapper">
-          <h1>{name}</h1>
-          <img className="info-image" src={image} />
-        </div>
-        <div className="section-wrapper">
-          <h2>Moves</h2>
-          <ul className="moves">
-            {moves.map((el) => (
-              <li key={el.move.name}>{el.move.name}</li>
-            ))}
-          </ul>
+        <div>
+          <div className="section-wrapper">
+            <img className="info-image" src={image} />
+            <h2>{name}</h2>
+          </div>
+          <div className="section-wrapper">
+            <h2>Moves</h2>
+            <ul className="moves">
+              {moves.map((el) => (
+                <li key={el.move.name}>{el.move.name}</li>
+              ))}
+            </ul>
+          </div>
         </div>
         <div className="section-wrapper">
           <h2>Stats</h2>
-          <ul>
+          <ul className="stats">
             {stats.map((el) => (
               <li key={el.stat.name}>
-                {el.stat.name}: {el.base_stat}
+                {el.stat.name} {el.base_stat}
               </li>
             ))}
           </ul>
         </div>
       </div>
-      <button className='main-page-button' onClick={onMainPage}>Back to Main page</button>
+      <button className="main-page-button" onClick={onMainPage}>
+        Back to Main page
+      </button>
     </div>
   );
 };
