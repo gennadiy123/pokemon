@@ -112,5 +112,24 @@ h1 {
             --color: #c38;
         }
 
-  
+        li:focus {
+            outline: 1px dashed;
+        }
+
+        li::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 0;
+            height: 100%;
+            background: var(--color);
+            transform: translate(-50%, 0);
+            opacity: 0.15;
+            transition: width 0.25s;
+        }
+
+        li:hover::before {
+            width: 100%;
+        }
 }
