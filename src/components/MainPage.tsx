@@ -3,10 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Search } from "./Search";
-import { Pokemon, PokemonState } from "../types";
+import { Pokemon, PokemonState, SortedPokemon } from "../types";
 import { getPokemonList, getPokemonInfo } from "../redux/middleware";
 import { AppDispatch } from "../redux/store";
 import { url, imageUrl } from "../constants";
+import { Button } from './Button';
 import "../sass/_main-page.scss";
 
 export const MainPage = () => {
@@ -15,11 +16,15 @@ export const MainPage = () => {
   const pokemon = useSelector((state: PokemonState) => state.pokemon);
   const navigate = useNavigate();
 
-  const [sortedPokemon, setSortedPokemon] = useState<Pokemon[]>([]);
+  const [sortedPokemon, setSortedPokemon] = useState<SortedPokemon[]>([]);
   const [sortingComplete, setSortingComplete] = useState(false);
 
   useEffect(() => {
-    const fetchPokemon = async () => {
+    dispatch(getPokemonList(pokemonPerPage));
+  }, [pokemonPerPage]);
+
+  const onSort = async () => {
+    if (!sortingComplete) {
       const array = [];
 
       for (const el of pokemon) {
@@ -31,27 +36,23 @@ export const MainPage = () => {
 
       const data = await Promise.all(array);
       const sorted = data
-        .map((el) => ({
-          name: el.name,
-          id: el.id,
-          type: el.types[0].type.name,
+        .map(({name, id, types}) => ({
+          name: name,
+          id: id,
+          type: types[0].type.name,
         }))
         .sort((a, b) => (a.type > b.type ? 1 : -1));
 
       setSortedPokemon(sorted);
       setSortingComplete(true);
-    };
-
-    if (pokemon.length) {
-      fetchPokemon();
+    } else {
+      setSortingComplete(false);
     }
-  }, [pokemon]);
-
-  useEffect(() => {
-    dispatch(getPokemonList(pokemonPerPage));
-  }, [pokemonPerPage]);
+    
+  };
 
   const onLoadPokemon = () => {
+    setSortingComplete(false);
     setPokemonPerPage(pokemonPerPage + 10);
   };
 
@@ -60,32 +61,54 @@ export const MainPage = () => {
     navigate(`/${pokemon}`);
   };
 
+  const getId = (pokemonUrl: string) => {
+    const url = new URL(pokemonUrl);
+    const id = url.pathname.split("/")[4];
+    return id;
+  };
+
   return (
     <div className="wrapper">
-      <Search />
-      <div className="images">
-        {sortingComplete ? (
-          sortedPokemon.map((el: Pokemon) => (
-            <div
-              onClick={() => onOpenPokemon(el.name)}
-              className="image-card"
-              key={el.name}
-            >
-              <img
-                className="image"
-                src={`${imageUrl}${el.id}.svg`}
-                alt={`pokemon ${el.name}`}
-              />
-              <p className="pokemon-name">{el.name}</p>
-            </div>
-          ))
-        ) : (
-          <p>Loading...</p>
-        )}
+      <div className="navigation">
+        <Search />
+        <Button  onClick={onSort}>
+          {sortingComplete ? "Place by default" : "Sort by type"}
+        </Button>
       </div>
-      <button className="button" onClick={onLoadPokemon}>
+      <div className="images">
+        {sortingComplete
+          ? sortedPokemon.map((el: SortedPokemon) => (
+              <div
+                onClick={() => onOpenPokemon(el.name)}
+                className="image-card"
+                key={el.name}
+              >
+                <img
+                  className="image"
+                  src={`${imageUrl}${el.id}.svg`}
+                  alt={`pokemon ${el.name}`}
+                />
+                <p className="pokemon-name">{el.name}</p>
+              </div>
+            ))
+          : pokemon.map((el: Pokemon) => (
+              <div
+                onClick={() => onOpenPokemon(el.name)}
+                className="image-card"
+                key={el.name}
+              >
+                <img
+                  className="image"
+                  src={`${imageUrl}${getId(el.url)}.svg`}
+                  alt={`pokemon ${el.name}`}
+                />
+                <p className="pokemon-name">{el.name}</p>
+              </div>
+            ))}
+      </div>
+      <Button onClick={onLoadPokemon}>
         Load more
-      </button>
+      </Button>
     </div>
   );
 };

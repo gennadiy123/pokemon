@@ -1,26 +1,35 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import './index.css';
-import App from './App';
-import {PokemonInfo} from './components/PokemonInfo'
-import reportWebVitals from './reportWebVitals';
+import "./index.css";
+import App from "./App";
+import { PokemonInfo } from "./components/PokemonInfo";
+import reportWebVitals from "./reportWebVitals";
 import { store } from "./redux/store";
+import { ScrollToTop } from "./helpers/ScrollToTop";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <ScrollToTop>
+        <App />
+      </ScrollToTop>
+    ),
   },
   {
     path: "/:pokemon",
-    element: <PokemonInfo />,
+    element: (
+      <ScrollToTop>
+        <PokemonInfo />
+      </ScrollToTop>
+    ),
   },
 ]);
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
